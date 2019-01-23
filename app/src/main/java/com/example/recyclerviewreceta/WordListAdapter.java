@@ -1,6 +1,7 @@
 package com.example.recyclerviewreceta;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,18 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder>  {
     //To hold your data in the adapter:
-    private final LinkedList<Receta> recetaList;//los items que iremos mostrando
+    private final List<Receta> mRecetaList;//los items que iremos mostrando
     private LayoutInflater mInflater;//para crear distintos layout
     private Context context; // nos hara context.getresources para coger los colores de fondo
     //constructor
-    public WordListAdapter(Context context,LinkedList<Receta> recetaList) {//context no se deberia
-        // estar pasando de una clase a otra. mejor no ir pasando las variable context por ahi por
-        //problemas de memoria
+    public WordListAdapter(Context context,List<Receta> recetaList) {//context no se deberia
+
         mInflater = LayoutInflater.from(context);// si hay 20 creara 20
-        this.recetaList = recetaList;
+        this.mRecetaList = recetaList;
         this.context=context;
     }
 
@@ -34,13 +35,14 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         public final TextView mDescripcion;
         public final LinearLayout linearLayout;
         final WordListAdapter mAdapter;
+
         // constructor para el wordViewHolder
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
 
             linearLayout =itemView.findViewById(R.id.linearLayout);
-            mTitulo = itemView.findViewById(R.id.titulo);
-            mDescripcion=itemView.findViewById(R.id.descripcion);
+            mTitulo = itemView.findViewById(R.id.txtTitulo);
+            mDescripcion=itemView.findViewById(R.id.txtDescripcion);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
         }
@@ -50,14 +52,23 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             // Get the position of the item that was clicked.
             int mPosition = getLayoutPosition();//E en todos los view HOlders
             // Use that to access the affected item in mWordList.
-            Receta element = recetaList.get(mPosition);
+            Receta element = mRecetaList.get(mPosition);
             // Cambia la receta en recetaList.
             //recetaList.set(mPosition,element);//objeto tipo receta
             // Notify the adapter, that the data has changed so it can
             // update the RecyclerView to display the data.
             //mAdapter.notifyDataSetChanged();
             //notifyItemChanged, que uno ha cambiado
+            // si no tuvieramos el context no podriamos hacer ese metodo
+            Intent intent=new Intent(context,Main2Activity.class);
 
+
+            intent.putExtra("title",element.getTitulo());// mismo nombre con el que luego
+            //lo recogeremos en el Main2Activity
+            intent.putExtra("imageUrl",element.getImageUrl());
+            intent.putExtra("recipe",element.getRecipe());
+
+            context.startActivity(intent);
         }
     }
 
@@ -65,6 +76,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     @NonNull
     @Override
     // vamos a crear un view holer para cada uno de los item ( sostenedor de vista)
+    //solo se carga de cargar el layout
     public WordListAdapter.WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                              int viewType) {//int la posicion item
         View mItemView = mInflater.
@@ -80,9 +92,10 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     // se puede poner el onclick dentro del onBind pero no es recomendable porque cada vez que
     //deslizamos se vuelven a generar todos los onclick
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
-        Receta mCurrent = recetaList.get(position);
-        holder.mTitulo.setText((CharSequence) mCurrent);
-        holder.mDescripcion.setText((CharSequence) mCurrent);
+        Receta mCurrent = mRecetaList.get(position);
+
+        holder.mTitulo.setText(mCurrent.getTitulo());
+        holder.mDescripcion.setText(mCurrent.getDescripcion());
         /*for (int i=0; i<recetaList.size();i++){
 
 
@@ -93,7 +106,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     @Override
     //el tamaño de la vista del redycler
     public int getItemCount() {
-        return recetaList.size();
+        return mRecetaList.size();
     }
 
 

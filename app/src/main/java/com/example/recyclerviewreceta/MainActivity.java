@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private final LinkedList<Receta> mRecetaList = new LinkedList<>();
+    private  List<Receta> mRecetaList = new ArrayList<>();
 
 
     private RecyclerView mRecyclerView;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mRecetaList =Receta.getRecetaList(4);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         //Creo el mRecyclerView antes por si acaso porque en el onclick lo utilizamos
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerView);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new WordListAdapter(this, mRecetaList);//extraeriamos solo lo de recetas
+        mAdapter = new WordListAdapter(this,mRecetaList);//extraeriamos solo lo de recetas
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager. NO OLVIDARSE DE ESTAS LINEAS!!!OJO!
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,15 +64,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // CREA LA LISTA DE ITEMS EN EL ON CREATE
-        createList();
+        //createList();
     }
 
-    public void createList(){
+   /* public void createList(){
         for (int i = 0; i < 20; i++) {
             Receta rec=new Receta( "Receta "+i, "Descripcion "+i);
             mRecetaList.addLast(rec);
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
