@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerView);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new WordListAdapter(this, mWordList);//extraeriamos solo lo de recetas
+        mAdapter = new WordListAdapter(this, mRecetaList);//extraeriamos solo lo de recetas
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager. NO OLVIDARSE DE ESTAS LINEAS!!!OJO!
@@ -57,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        // CREA LA LISTA DE ITEMS EN EL ON CREATE
+        createList();
+    }
+
+    public void createList(){
+        for (int i = 0; i < 20; i++) {
+            Receta rec=new Receta( "Receta "+i, "Descripcion "+i);
+            mRecetaList.addLast(rec);
+        }
     }
 
     @Override

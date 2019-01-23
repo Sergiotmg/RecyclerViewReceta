@@ -81,12 +81,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     //deslizamos se vuelven a generar todos los onclick
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
         Receta mCurrent = recetaList.get(position);
-        holder.mTitulo.setText(mCurrent);
-        //holder.mTxtWord.setText(mCurrent.getName()); si fuera un cliente mCurrent
-        int drawable;//R.algo devuelve un entero
-        int color;
-        // NO PONER MUCHA LOGICA EN ESTE METODO
+        holder.mTitulo.setText((CharSequence) mCurrent);
+        holder.mDescripcion.setText((CharSequence) mCurrent);
+        /*for (int i=0; i<recetaList.size();i++){
 
+
+        }*/
         holder.linearLayout.setBackgroundColor(9);
     }
 
